@@ -88,6 +88,37 @@ function main(){
             myMem.set(index, value);
         } // update value
 
+        urlify(oldString){
+        // input a string
+        // output the spaces replaced with %20's
+        let newString = [];
+        //let offSet = 0;
+            for(let i=0; i < oldString.length; i++){
+                if(oldString[i]=== ' '){
+                    newString[i] = '%20';
+                    //offSet += 2;
+                }
+                else{
+                    newString[i] = oldString[i];
+                }
+            }
+        return newString.join('');//goal
+        }
+
+        _filter(arr){
+            // input arr
+            // output every number in array < num 
+            let lessThanArray =[];
+            for (let i = 0; i < arr.length; i++){
+                if(arr[i] >= 5) {
+                    lessThanArray[i]= arr[i];
+                } else {
+                    lessThanArray[i] = '';
+                }
+            }
+            return lessThanArray;//goal
+            }
+
     }//end class Array
 
 
@@ -95,20 +126,20 @@ function main(){
     const myArray = new Array();
     // console.log("expect 3: ", myArray.RESIZE_MULTIPLIER);
     // console.log("here", myArray);
-     myArray.pushValue(0);
+     myArray.pushValue('big number');
    // console.log("here", myArray);
     myArray.pushValue(1);
   //  console.log("here", myArray);
     myArray.pushValue(2);
   //  console.log("here", myArray);
-    myArray.pushValue(3);
+    myArray.pushValue('c');
 //console.log("here", myArray);
     myArray.pushValue(4);
-    myArray.pushValue(5);
+    myArray.pushValue('astinrsis');
    console.log("here", myArray);
     // myArray.popValue();
     // console.log("***POST POP Array is: ", myArray);
-
+    //myArray.push("tauhida");
     // console.log(`0 is: ${myArray.readValue(myArray.ptr)}`);
     // console.log(`1 is: ${myArray.readValue(myArray.ptr + 1)}`);
     // console.log(`2 is: ${myArray.readValue(myArray.ptr + 2)}`);//** */
@@ -133,6 +164,8 @@ function main(){
         // console.log(`5 is: ${myArray.readValue(myArray.ptr + 5)}`);
        // console.log(`index 5 is: ${myArray.readValue(this.ptr + 5)}`);
    
+   console.log("test: ", myArray.urlify('www.thinkful.com /tauh ida parv een'));//expect www.thinkful.com%20/tauh%20ida%20parv%20een
+   console.log(myArray._filter([4,6,-3,5,-2,7]));
    // console.log("test get: ", myArray.readValue(4));
     //myArray.readValue(2);
     return true;

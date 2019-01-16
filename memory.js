@@ -1,6 +1,6 @@
 class Memory {
     constructor() {
-      this.memory = new Float64Array(1024);//this.memory.length = 100 space(example)
+      this.memory = new Array(1024);//this.memory.length = 100 space(example)
       this.head = 0;//set to 50, because that much has been taken.
     }
   
