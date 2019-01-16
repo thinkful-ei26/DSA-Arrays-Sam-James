@@ -7,7 +7,7 @@ function main(){
             this.length = 0;
             this.ptr = myMem.allocate(this.length);
             this.capacity = 0;
-            this.RESIZE_MULTIPLIER = 3;
+             this.RESIZE_MULTIPLIER = 3;
         }
         //input->how much space do you need? input: i need this much
         //  output-> ok you have that much now <- this should be done is the output state
@@ -16,19 +16,23 @@ function main(){
             //1: move the pointer
             const oldPtr = this.ptr;
            // console.log("before resize: ", this.length);
-            this.ptr += myMem.allocate(newSize);
+            this.ptr = myMem.allocate(newSize);
             if( this.ptr === null){
                 throw new Error('No Free memory error');
             }
             //2: increase capacity  
             // 3: copy the gosh darn array man!
             myMem.copy(this.ptr, oldPtr, this.length);
-            //console.log("after resize: ", this.length);                          
+            //console.log("after resize: ", this.length); 
+            myMem.free(oldPtr);                         
             this.capacity = newSize;
         } //call this send in some new space, expect our capacity to be enough afterwards
 
         readValue(index){
-            return  myMem.get(this.ptr + index);
+            if(index < 0 || index >= this.length){
+                throw new Error('Index error is our Error best error');
+            }
+            return myMem.get(this.ptr + index);
         } // get value 
 
         pushValue(value){
@@ -44,10 +48,10 @@ function main(){
 
         insertValue(index, value){
             //check if index is valid:
-            if(index < 0 || index > this.capacity){
+            if(index < 0 || index > this.length){
                 throw new Error('Error: the target index to insert at is not a legal space');
             }
-            if((this.ptr + this.length) >= this.capacity){
+            if((this.length) >= this.capacity){
                 this._resize((this.length+1) * this.RESIZE_MULTIPLIER);
             }
             //inside copy params are (TO-Index, FROM-Index and size)
@@ -55,8 +59,8 @@ function main(){
             myMem.set((this.ptr + index), value);
             this.length = this.length +1;
             console.log(`ok ${value} has been inserted at ${index}, have a nice day, Sam.`);
-            const doubleCheck = myMem.get(index);
-            console.log("expect this to match ^^", doubleCheck);
+            
+          
          } // create new value at param index
 
         popValue(){
@@ -70,7 +74,12 @@ function main(){
                         
         }//  delete last value 
 
-        removeValue(index){} // delete some value somewhere
+        removeValue(index){
+            if(index < 0 || index >= this.length){
+                throw new Error('Index out of memory range error');
+            }
+            myMem.copy(this.ptr + index, this.ptr + index +1, this.length - index - 1);
+        } // delete some value somewhere
 
         editValue(index, value){
             if(index < 0 || index > this.length){
@@ -95,25 +104,27 @@ function main(){
     myArray.pushValue(3);
 //console.log("here", myArray);
     myArray.pushValue(4);
+    myArray.pushValue(5);
    console.log("here", myArray);
     // myArray.popValue();
     // console.log("***POST POP Array is: ", myArray);
 
-    console.log(`0 is: ${myArray.readValue(myArray.ptr)}`);
-    console.log(`1 is: ${myArray.readValue(myArray.ptr + 1)}`);
-    console.log(`2 is: ${myArray.readValue(myArray.ptr + 2)}`);
-    console.log(`3 is: ${myArray.readValue(myArray.ptr + 3)}`);
-    console.log(`4 is: ${myArray.readValue(myArray.ptr + 4)}`);
+    // console.log(`0 is: ${myArray.readValue(myArray.ptr)}`);
+    // console.log(`1 is: ${myArray.readValue(myArray.ptr + 1)}`);
+    // console.log(`2 is: ${myArray.readValue(myArray.ptr + 2)}`);//** */
+    // console.log(`3 is: ${myArray.readValue(myArray.ptr + 3)}`);
+    // console.log(`4 is: ${myArray.readValue(myArray.ptr + 4)}`);
 
-    myArray.insertValue(2, 42);
+   myArray.insertValue(2, 42);
     console.log("**inserted index2, val42 Array is: ", myArray);
     
-        console.log(`0 is: ${myMem.get(0)}`);
-        console.log(`1 is: ${myMem.get(1)}`);
-        console.log(`2 is: ${myMem.get(2)}`);
-        console.log(`3 is: ${myMem.get(3)}`);
-        console.log(`4 is: ${myMem.get(4)}`);
-        console.log(`5 is: ${myMem.get(5)}`);
+        console.log(`0 is: ${myMem.get(0 + myArray.ptr)}`);
+        console.log(`1 is: ${myMem.get(1 + myArray.ptr)}`);
+        console.log(`2 is: ${myMem.get(5)}`);
+        console.log(`3 is: ${myMem.get(6)}`);
+        console.log(`4 is: ${myMem.get(7)}`);
+        console.log(`5 is: ${myMem.get(8)}`);
+        console.log(`6 is: ${myMem.get(9)}`);
 
         // console.log(`1 is: ${myArray.readValue(myArray.ptr + 1)}`);
         // console.log(`2 is: ${myArray.readValue(myArray.ptr + 2)}`);
