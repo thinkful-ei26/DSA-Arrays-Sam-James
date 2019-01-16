@@ -11,11 +11,11 @@ class Memory {
         return null;
       }
       //not out of memory space(because we start at 0/100 example)
+      this.head += size;
       let start = this.head;//start becomes the first free open block, so 50
       
       //sets this.head to size 
       // example first setup run-- head += 0
-      this.head += size;
       //moves head to the beginning of the new (next) free space
       return start;//so this.ptr on setup is set to 0
     }
