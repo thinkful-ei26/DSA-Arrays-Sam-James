@@ -11,9 +11,9 @@ class Memory {
         return null;
       }
       //not out of memory space(because we start at 0/100 example)
-      this.head += size;
       let start = this.head;//start becomes the first free open block, so 50
       
+      this.head += size;
       //sets this.head to size 
       // example first setup run-- head += 0
       //moves head to the beginning of the new (next) free space
@@ -22,7 +22,8 @@ class Memory {
   
     free(ptr) {}
     //on insert this.ptr
-    // [0, 1, 2 ,3,  4, ... 50 ]
+    // [0, 1, 2 ,3,to, ... 50 ]
+     // [0, 1,- , 2, 3]
     copy(toIdx, fromIdx, size) {
       if (fromIdx === toIdx) {
         return;
@@ -32,6 +33,7 @@ class Memory {
         // Iterate forwards
         for (let i = 0; i < size; i++) {
           this.set(toIdx + i, this.get(fromIdx + i));
+        
         }
       } else {
         // Iterate backwards
@@ -42,12 +44,14 @@ class Memory {
     }
   
     get(ptr) {
+     // console.log("inside mem.js",this.memory[ptr]);
       return this.memory[ptr];
     }
   //length 50 space=>  [0, 1, ... , 49]
   // resize +1 => [0, 1, ... , 49, 50]
     set(ptr, value) {
       this.memory[ptr] = value;//memory[50] the 51 item = new pushed value
+    //  console.log("inside push mem.js",this.memory[ptr]);
     }
   }
   
